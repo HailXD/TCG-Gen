@@ -94,6 +94,9 @@ def print_deck(groups):
         print(f"{cat} – {total}")
         for e in entries:
             count, name, set_name, number = e
+            if set_name is None:
+                print(f"{count} {name}")
+                continue
             print(f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}".replace('  ', ' '))
         print()
     print(f"Total – {ttotal}")

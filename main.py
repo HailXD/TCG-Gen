@@ -1,8 +1,10 @@
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import sys, sqlite3, ast, re, time
 from dotenv import load_dotenv
 import os
 
+config = types.GenerateContentConfig(temperature=1)
 load_dotenv()
 
 def read_until_double_newline(s=''):
@@ -99,6 +101,9 @@ def print_deck(groups):
         print(f"{cat} - {total}")
         for e in entries:
             count, name, set_name, number = e
+            if set_name is None:
+                print(f"{count} {name}")
+                continue
             print(f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}".replace('  ', ' '))
         print()
     print(f"Total - {ttotal}")
@@ -110,13 +115,21 @@ def main():
     with open('cards.txt', 'r', encoding='utf-8') as f:
         s = f.read()
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-pro-exp-03-25")
+    client = genai.Client(api_key=api_key)
 
     start = time.time()
     print(f"[{time.time() - start:.2f}s] Generating Deck..")
-    response = model.generate_content(s + char)
+    response = client.models.generate_content(
+        # model="gemini-2.5-flash-preview-04-17",
+        model="gemini-2.5-pro-exp-03-25",
+        contents=[s + char],
+        config=types.GenerateContentConfig(
+            max_output_tokens=65535,
+            temperature=1,
+        )
+    )
     deck = response.text
+    print(deck)
     print(f"[{time.time() - start:.2f}s] Parsing Deck..")
     raw = read_until_double_newline(deck)
     deck = load_deck(raw)
