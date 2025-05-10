@@ -22,7 +22,6 @@ def read_until_double_newline(s: str = "") -> str:
 
 
 def load_deck(input_text: str) -> dict:
-    """Convert the deck literal to a Python dict[card_key] = (count, category)."""
     try:
         deck = ast.literal_eval(input_text)
         if not isinstance(deck, dict):
@@ -100,7 +99,6 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
     return groups
 
 
-
 def adjust_trainers_to_sixty(groups: dict) -> None:
     total_cards: int = sum(sum(entry[0] for entry in groups[cat]) for cat in groups)
     trainer_entries = groups.get("Trainer", [])
@@ -117,10 +115,11 @@ def adjust_trainers_to_sixty(groups: dict) -> None:
                 break
     else:
         if total_cards > 60:
-            sys.stderr.write("Warning: Deck still exceeds 60 cards after exhausting Trainer copies.\n")
+            sys.stderr.write(
+                "Warning: Deck still exceeds 60 cards after exhausting Trainer copies.\n"
+            )
 
     groups["Trainer"] = trainer_entries
-
 
 
 def print_deck(groups: dict) -> None:
@@ -136,11 +135,12 @@ def print_deck(groups: dict) -> None:
             if set_name is None:
                 print(f"{count} {name}")
                 continue
-            line = f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}".replace("  ", " ")
+            line = f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}".replace(
+                "  ", " "
+            )
             print(line)
         print()
     print(f"Total - {total_overall}")
-
 
 
 def main() -> None:
@@ -178,6 +178,7 @@ def main() -> None:
     adjust_trainers_to_sixty(groups)
 
     print_deck(groups)
+
 
 if __name__ == "__main__":
     main()
