@@ -42,6 +42,7 @@ For energy, don't need write "Basic"
 Type can be Pokemon, Trainer or Energy
 Do not use any cards outside of the list
 For Special Energies, classify them as "Energy"
+Make sure have enough energy for the deck to function
 Explain the core strategy, card synergies and game play (Early, Mid, Late game)
 For the comments, save in the comment field in the output, the entire explanation should be in the comment field, nothing should be outside of the json block
 Card Names Can be in 3 formats:
