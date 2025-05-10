@@ -167,8 +167,6 @@ def main() -> None:
         ),
     )
     deck_text = response.text
-    print(deck_text)
-
     print(f"[{time.time() - start:.2f}s] Parsing Deck..")
     raw_literal = read_until_double_newline(deck_text)
     deck_dict = load_deck(raw_literal)
