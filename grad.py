@@ -1,7 +1,5 @@
 import os
 import sys
-import time
-import re
 import sqlite3
 from typing import List
 
@@ -15,6 +13,8 @@ load_dotenv()
 TEMPERATURE = 1.0
 GEN_MODEL   = "gemini-2.5-pro-exp-03-25"
 
+with open("system.txt", encoding="utf-8") as f:
+    system_instr = f.read()
 class Card(BaseModel):
     count: int = Field(..., ge=1, le=4)
     name: str
@@ -134,9 +134,6 @@ def build_deck(characteristics: str) -> tuple[str, str]:
     api_key = os.getenv("API_KEY")
     if not api_key:
         raise RuntimeError("API_KEY not set in environment")
-
-    with open("system.txt", encoding="utf-8") as f:
-        system_instr = f.read()
 
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
