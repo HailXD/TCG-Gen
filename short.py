@@ -55,7 +55,9 @@ Pokemon attacks cost and types are shortened to one letter, where: C = Colorless
 OVERIDES:
 ONLYDECK (No Explanations, only return json): Y
 ===
-Create a deck with the characteristics: '''  
+Role:
+You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with the cards based only on the list provided and return the deck in the specified json format. Double check your deck has only 60 cards in total before returning it.
+'''  
 
 RARITIES_ORDER = [
     'common', 'uncommon', 'rare', 'rare holo', 'promo', 'ultra rare', 'no rarity',
@@ -90,7 +92,7 @@ def fetch_cards(db_path="pokemon_cards.db"):
     cur.execute("""
         SELECT name, set_name, types, number, hp, effect, abilities, attacks, retreat, evolve_from, rarity, card_type, vstar_power
         FROM cards
-        WHERE regulation IN ('g', 'h', 'i', 'f')
+        WHERE regulation IN ('g', 'h', 'i')
         ORDER BY set_name, CAST(number AS INTEGER)
     """)
     rows = cur.fetchall()

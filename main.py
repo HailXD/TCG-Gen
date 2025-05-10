@@ -120,12 +120,12 @@ def main():
     start = time.time()
     print(f"[{time.time() - start:.2f}s] Generating Deck..")
     response = client.models.generate_content(
-        # model="gemini-2.5-flash-preview-04-17",
         model="gemini-2.5-pro-exp-03-25",
-        contents=[s + char],
+        contents=[char],
         config=types.GenerateContentConfig(
             max_output_tokens=65535,
             temperature=1,
+            system_instruction=s,
         )
     )
     deck = response.text
