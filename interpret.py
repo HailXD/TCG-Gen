@@ -41,7 +41,7 @@ def lookup_card(name, cursor, set_name=None):
     cursor.execute("""
         SELECT set_name, number, date, card_type
           FROM cards
-        WHERE name = ? AND (rarity IS NULL OR rarity IN ('common', 'uncommon', 'ace spec rare', 'rare', 'rare holo'))
+        WHERE name = ? AND (rarity IS NULL OR rarity IN ('common', 'uncommon', 'ace spec rare', 'rare', 'rare holo', 'double rare'))
       ORDER BY date ASC
     """, (name.lower(),))
     rows = cursor.fetchall()
@@ -97,7 +97,9 @@ def print_deck(groups):
             if set_name is None:
                 print(f"{count} {name}")
                 continue
-            print(f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}".replace('  ', ' '))
+            if name[-3:].isupper():
+                name = name[:-4]
+            print(f"{count} {name} {set_name.upper()} {number}".replace('  ', ' '))
         print()
     print(f"Total – {ttotal}")
 

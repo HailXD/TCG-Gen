@@ -52,7 +52,8 @@ def lookup_card(name: str, cursor: sqlite3.Cursor, set_name: str | None = None):
         """
         SELECT set_name, number, date, card_type
           FROM cards
-         WHERE name = ? AND (rarity IS NULL OR rarity IN ('common', 'uncommon', 'ace spec rare', 'rare', 'rare holo'))
+          WHERE name = ? AND (rarity IS NULL OR rarity IN ('common', 'uncommon', 'ace spec rare', 'rare', 'rare holo', 'double rare'))
+
       ORDER BY date ASC
         """,
         (name.lower(),),
@@ -147,8 +148,10 @@ def print_deck(groups: dict, comment: str) -> None:
             if set_name is None:
                 print(f"{count} {name}")
                 continue
+            if name[-3:].isupper():
+                name = name[:-4]
             line = (
-                f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}"
+                f"{count} {name} {set_name.upper()} {number}"
             ).replace("  ", " ")
             print(line)
         print()
