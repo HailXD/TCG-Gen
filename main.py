@@ -80,10 +80,8 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
             for i in range(0, 3):
                 full_key = full_key.replace("Dark Energy", "Darkness Energy")
                 parts = full_key.split(" ")
-                if i == 0:
-                    set_name, number = lookup_card(full_key, cur)
-                else:
-                    set_name, number = lookup_card(" ".join(parts[:-i]), cur)
+                candidate = full_key if i == 0 else " ".join(parts[:-i])
+                set_name, number = lookup_card(candidate, cur)
                 if set_name:
                     break
             if set_name is None:
@@ -99,27 +97,40 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
     return groups
 
 
-def adjust_trainers_to_sixty(groups: dict) -> None:
-    total_cards: int = sum(sum(entry[0] for entry in groups[cat]) for cat in groups)
+
+def balance_trainers_to_sixty(groups: dict) -> None:
+    total_cards: int = sum(sum(e[0] for e in groups[cat]) for cat in groups)
     trainer_entries = groups.get("Trainer", [])
 
     while total_cards > 60 and trainer_entries:
-        max_count = max(entry[0] for entry in trainer_entries)
+        max_count = max(e[0] for e in trainer_entries)
         for idx in range(len(trainer_entries) - 1, -1, -1):
-            if trainer_entries[idx][0] == max_count:
-                cnt, name, set_name, number = trainer_entries[idx]
+            cnt, name, set_name, number = trainer_entries[idx]
+            if cnt == max_count:
                 trainer_entries[idx] = (cnt - 1, name, set_name, number)
                 if trainer_entries[idx][0] == 0:
                     trainer_entries.pop(idx)
                 total_cards -= 1
                 break
-    else:
-        if total_cards > 60:
-            sys.stderr.write(
-                "Warning: Deck still exceeds 60 cards after exhausting Trainer copies.\n"
-            )
+
+    while total_cards < 60 and trainer_entries:
+        eligible = [(i, e) for i, e in enumerate(trainer_entries) if e[0] < 4]
+        if not eligible:
+            break
+        min_count = min(e[1][0] for e in eligible)
+        for idx, (cnt, name, set_name, number) in eligible:
+            if cnt == min_count:
+                trainer_entries[idx] = (cnt + 1, name, set_name, number)
+                total_cards += 1
+                break
+
+    if total_cards != 60:
+        sys.stderr.write(
+            f"Warning: Unable to balance deck to 60 cards (current size: {total_cards}).\n"
+        )
 
     groups["Trainer"] = trainer_entries
+
 
 
 def print_deck(groups: dict) -> None:
@@ -135,12 +146,13 @@ def print_deck(groups: dict) -> None:
             if set_name is None:
                 print(f"{count} {name}")
                 continue
-            line = f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}".replace(
-                "  ", " "
-            )
+            line = (
+                f"{count} {name.replace(set_name.upper(), '')} {set_name.upper()} {number}"
+            ).replace("  ", " ")
             print(line)
         print()
     print(f"Total - {total_overall}")
+
 
 
 def main() -> None:
@@ -173,7 +185,7 @@ def main() -> None:
 
     print(f"[{time.time() - start:.2f}s] Compiling Deck..")
     groups = compile_deck(deck_dict)
-    adjust_trainers_to_sixty(groups)
+    balance_trainers_to_sixty(groups)
 
     print_deck(groups)
 
