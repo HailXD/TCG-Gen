@@ -3,9 +3,22 @@ from google.genai import types
 import sys, sqlite3, ast, re, time
 from dotenv import load_dotenv
 import os
+from pydantic import BaseModel, Field
+from typing import List
 
 config = types.GenerateContentConfig(temperature=1)
 load_dotenv()
+
+
+class Card(BaseModel):
+    count: int = Field(..., ge=1, le=4)
+    name: str
+    category: str
+
+
+class Recipe(BaseModel):
+    Deck: List[Card]
+    Comment: str
 
 
 def read_until_double_newline(s: str = "") -> str:
@@ -19,16 +32,6 @@ def read_until_double_newline(s: str = "") -> str:
             break
 
     return "{" + "".join(lines).split("{", 1)[1]
-
-
-def load_deck(input_text: str) -> dict:
-    try:
-        deck = ast.literal_eval(input_text)
-        if not isinstance(deck, dict):
-            raise ValueError("Expected a dict of cards")
-        return deck
-    except Exception as e:
-        sys.exit(f"Failed to parse deck list: {e}")
 
 
 def lookup_card(name: str, cursor: sqlite3.Cursor, set_name: str | None = None):
@@ -97,7 +100,6 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
     return groups
 
 
-
 def balance_trainers_to_sixty(groups: dict) -> None:
     total_cards: int = sum(sum(e[0] for e in groups[cat]) for cat in groups)
     trainer_entries = groups.get("Trainer", [])
@@ -132,8 +134,7 @@ def balance_trainers_to_sixty(groups: dict) -> None:
     groups["Trainer"] = trainer_entries
 
 
-
-def print_deck(groups: dict) -> None:
+def print_deck(groups: dict, comment: str) -> None:
     total_overall = 0
     for cat in ("Pokemon", "Trainer", "Energy"):
         entries = groups.get(cat, [])
@@ -153,6 +154,8 @@ def print_deck(groups: dict) -> None:
         print()
     print(f"Total - {total_overall}")
 
+    print("\nComments:")
+    print(comment)
 
 
 def main() -> None:
@@ -173,26 +176,27 @@ def main() -> None:
         model="gemini-2.5-pro-exp-03-25",
         contents=[char],
         config=types.GenerateContentConfig(
-            max_output_tokens=65535,
-            temperature=1,
             system_instruction=system_instruction,
+            response_mime_type="application/json",
+            response_schema=Recipe,
         ),
     )
-    deck_text = response.text
-    print(deck_text)
+
     print(f"[{time.time() - start:.2f}s] Parsing Deck..")
-    raw_literal = read_until_double_newline(deck_text)
-    deck_dict = load_deck(raw_literal)
+    response_data = response.parsed
 
     print(f"[{time.time() - start:.2f}s] Compiling Deck..")
-    comment = deck_dict["Comment"]
+    comment = response_data.Comment
+    deck_data = response_data.Deck
+    deck_dict = {}
+    for deck in deck_data:
+        deck_dict[deck.name] = (deck.count, deck.category)
 
-    deck_dict = {k: v for k, v in deck_dict.items() if k != "Comment"}
     groups = compile_deck(deck_dict)
     print(f"[{time.time() - start:.2f}s] Balancing Deck..")
     balance_trainers_to_sixty(groups)
 
-    print_deck(groups)
+    print_deck(groups, comment)
 
 
 if __name__ == "__main__":

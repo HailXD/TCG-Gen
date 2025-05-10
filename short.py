@@ -15,19 +15,23 @@ F:Evolve From
 Return your results a dictionary in the format:
 ```json
 {
-    "Pokemon Set_Name": [Count, "Pokemon"],
-    "Trainer Name": [Count, "Trainer"],
-    "Energy Type": [Count, "Energy"],
+    "Deck": {
+        "Pokemon Set_Name": [Count, "Pokemon"],
+        "Trainer Name": [Count, "Trainer"],
+        "Energy Type": [Count, "Energy"]
+    }
 }
 ```
 As an example, if you wanted 3 Arcanine SP, 1 Wiglett PAR 51, 3 drayton, 2 Darkness Energy and 1 Lightning Energy, that entry will look like
 ```json
 {
-    "arcanine SP": [3,"Pokemon"],
-    "wiglett PAR 51": [1, "Pokemon"],
-    "drayton": [3,"Trainer"],
-    "Darkness Energy": [2,"Energy"],
-    "Lightning Energy": [1,"Energy"],
+    "Deck": {
+        "arcanine SP": [3,"Pokemon"],
+        "wiglett PAR 51": [1, "Pokemon"],
+        "drayton": [3,"Trainer"],
+        "Darkness Energy": [2,"Energy"],
+        "Lightning Energy": [1,"Energy"]
+    },
     "Comment": "The deck... (Explanations)"
 }
 ```
@@ -35,7 +39,6 @@ As an example, if you wanted 3 Arcanine SP, 1 Wiglett PAR 51, 3 drayton, 2 Darkn
 Notes:
 Decks should have 60 cards
 For energy, don't need write "Basic"
-Send the deck before the explanations
 Type can be Pokemon, Trainer or Energy
 Do not use any cards outside of the list
 For Special Energies, classify them as "Energy"
