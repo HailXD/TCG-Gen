@@ -4,40 +4,11 @@ import sys, sqlite3, ast, re, time
 from dotenv import load_dotenv
 import os
 
-"""
-Pokemon TCG deck generator / compiler
--------------------------------------
-
-* Generates a deck list using the Gemini model based on a user‑supplied prompt.
-* Compiles the list against a local SQLite card database so each card gets a set
-  abbreviation and collector number.
-* Prints the final 60‑card deck grouped by Pokémon / Trainer / Energy.
-
-NEW 2025‑05‑10
-~~~~~~~~~~~~~~
-If the generated deck contains **more than 60 cards**, the script now
-**automatically trims Trainer cards** one copy at a time **starting with the
-Trainer that currently has the highest count (breaking ties by removing the
-last such entry first)** until the deck size is exactly 60 cards.
-
-Example
-^^^^^^^
-Initial Trainer counts  →  4 3 2 1 4 4 (total deck size 62)
-First removal           →  4 3 2 1 4 3 (size 61)
-Second removal          →  4 3 2 1 3 3 (size 60)
-
-If the deck is still over 60 after exhausting all Trainer copies, a warning is
-printed and no further changes are made.
-"""
-
 config = types.GenerateContentConfig(temperature=1)
 load_dotenv()
 
 
 def read_until_double_newline(s: str = "") -> str:
-    """Return the JSON‑like deck literal between the first "{" and the first
-    line that ends with "}". Works for stdin or a given string."""
-
     lines: list[str] = []
     source = s.splitlines() if s else sys.stdin
 
@@ -62,8 +33,6 @@ def load_deck(input_text: str) -> dict:
 
 
 def lookup_card(name: str, cursor: sqlite3.Cursor, set_name: str | None = None):
-    """Find the earliest (legal) printing of a card, optionally within a set."""
-
     if set_name is not None:
         cursor.execute(
             """
@@ -93,8 +62,6 @@ def lookup_card(name: str, cursor: sqlite3.Cursor, set_name: str | None = None):
 
 
 def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
-    """Look up each entry in *deck_dict* and split into Pokémon / Trainer / Energy."""
-
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
 
@@ -135,12 +102,6 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
 
 
 def adjust_trainers_to_sixty(groups: dict) -> None:
-    """If the deck totals >60 cards, trim Trainer copies until size == 60.
-
-    Preference: Always remove one copy from the Trainer with the current maximum
-    count; if multiple Trainers tie for max count, remove from the *last* such
-    entry (to approximate the "bottom of the list" example)."""
-
     total_cards: int = sum(sum(entry[0] for entry in groups[cat]) for cat in groups)
     trainer_entries = groups.get("Trainer", [])
 
@@ -163,8 +124,6 @@ def adjust_trainers_to_sixty(groups: dict) -> None:
 
 
 def print_deck(groups: dict) -> None:
-    """Pretty‑print the deck."""
-
     total_overall = 0
     for cat in ("Pokemon", "Trainer", "Energy"):
         entries = groups.get(cat, [])
