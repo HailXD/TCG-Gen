@@ -29,10 +29,9 @@ As an example, if you wanted 3 Arcanine SP, 1 Wiglett PAR 51, 3 drayton, 2 Darkn
     "Darkness Energy": [2,"Energy"],
     "Lightning Energy": [1,"Energy"]
 }
-Pokemon must have set names, while card numbers are only needed when there are multiple versions of the same card in the same set
-Trainer does not need to have set names or card numbers
-Energy does not need to have set names or card numbers
-
+```
+```txt
+The deck...
 ```
 ===
 Notes:
@@ -44,12 +43,13 @@ Send the deck before the explanations
 Type can be Pokemon, Trainer or Energy
 Decks should have 60 cards, double check it.
 For Special Energies, classify them as "Energy"
+Wrap your notes and explanations, all in seperate markdown shown in the example
 The notes does not need to be in dictionary form, it should be outside the json block
 Card Names Can be in 3 formats:
+In the output use the name format given in the list
 Card_Name (e.g drayton) - Used for trainers or energies since they have the same effect regardless of set
 Card_Name Set_Name (e.g arcanine SP) - For pokemon that only has 1 type (Same attacks with different prints) in the same set
 Card_Name Set_Name Card_Number (e.g wiglett PAR 51) - For pokemon that has the same name but different types in the same set
-In the output use the name format given in the list
 Pokemon attacks cost and types are shortened to one letter, where: C = Colorless;G = Grass;R = Fire;W = Water;L = Lightning;P = Psychic;M = Metal;F = Fighting;D = Darkness
 ===
 OVERIDES:
@@ -113,7 +113,7 @@ def _shorten_energy_names(text: str) -> str:
         text = pattern.sub(letter, text)
     return text
 
-def write_cards_txt(cards, out_path="cards.txt"):
+def write_cards_txt(cards, out_path="system.txt"):
     grouped = {}
     for c in cards:
         card_type = (c['card_type'] or '').lower()
