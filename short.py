@@ -34,13 +34,13 @@ As an example, if you wanted 3 Arcanine SP, 1 Wiglett PAR 51, 3 drayton, 2 Darkn
 ===
 Notes:
 Decks should have 60 cards
-Explain the synergy and strategy
 For energy, don't need write "Basic"
 Send the deck before the explanations
 Type can be Pokemon, Trainer or Energy
 Do not use any cards outside of the list
 For Special Energies, classify them as "Energy"
 For the comments, save in the comment field in the output
+Explain the core strategy, card synergies and game play (Early, Mid, Late game)
 The notes does not need to be in dictionary form, it should be outside the json block
 Card Names Can be in 3 formats:
 In the output use the name format given in the list
