@@ -67,8 +67,6 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
     groups: dict[str, list[tuple]] = {"Pokemon": [], "Trainer": [], "Energy": []}
 
     for full_key, (count, category) in deck_dict.items():
-        if full_key == "Comment":
-            continue
         if category == "Pokemon":
             parts = full_key.split(" ")
             name = " ".join(parts[:-1])
@@ -187,7 +185,11 @@ def main() -> None:
     deck_dict = load_deck(raw_literal)
 
     print(f"[{time.time() - start:.2f}s] Compiling Deck..")
+    comment = deck_dict["Comment"]
+
+    deck_dict = {k: v for k, v in deck_dict.items() if k != "Comment"}
     groups = compile_deck(deck_dict)
+    print(f"[{time.time() - start:.2f}s] Balancing Deck..")
     balance_trainers_to_sixty(groups)
 
     print_deck(groups)
