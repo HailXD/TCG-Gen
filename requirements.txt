@@ -1,0 +1,4 @@
+gradio
+pydantic
+python-dotenv
+google-genai
