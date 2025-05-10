@@ -67,6 +67,8 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
     groups: dict[str, list[tuple]] = {"Pokemon": [], "Trainer": [], "Energy": []}
 
     for full_key, (count, category) in deck_dict.items():
+        if full_key == "Comment":
+            continue
         if category == "Pokemon":
             parts = full_key.split(" ")
             name = " ".join(parts[:-1])
@@ -179,6 +181,7 @@ def main() -> None:
         ),
     )
     deck_text = response.text
+    print(deck_text)
     print(f"[{time.time() - start:.2f}s] Parsing Deck..")
     raw_literal = read_until_double_newline(deck_text)
     deck_dict = load_deck(raw_literal)
