@@ -191,7 +191,7 @@ def main() -> None:
 
     char = input("Enter deck characteristics: ")
 
-    with open("cards.txt", "r", encoding="utf-8") as f:
+    with open("system.txt", "r", encoding="utf-8") as f:
         system_instruction = f.read()
 
     client = genai.Client(api_key=api_key)

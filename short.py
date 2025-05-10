@@ -36,13 +36,13 @@ Energy does not need to have set names or card numbers
 ```
 ===
 Notes:
-Decks should have 60 cards
 Explain the synergy and strategy
 Don't write comments in the json
 For energy, don't need write "Basic"
 Do not any cards outside of the list
 Send the deck before the explanations
 Type can be Pokemon, Trainer or Energy
+Decks should have 60 cards, double check it.
 For Special Energies, classify them as "Energy"
 The notes does not need to be in dictionary form, it should be outside the json block
 Card Names Can be in 3 formats:
@@ -56,8 +56,8 @@ OVERIDES:
 ONLYDECK (No Explanations, only return json): Y
 ===
 Role:
-You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with the cards based only on the list provided and return the deck in the specified json format. Double check your deck has only 60 cards in total before returning it.
-'''  
+You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with the cards based only on the list provided and return the deck in the specified json format, do not use cards outside of the list provided.
+'''
 
 RARITIES_ORDER = [
     'common', 'uncommon', 'rare', 'rare holo', 'promo', 'ultra rare', 'no rarity',
