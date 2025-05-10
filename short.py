@@ -2,7 +2,7 @@ import sqlite3
 import re
 
 SUFFIX = '''===
-Format:
+List Format:
 Name
 HP:Health
 A:Attacks(C:Cost,N:Name,E:Effect,D:Damage,S:Suffix)
@@ -12,7 +12,7 @@ V:Vstar Power
 T:Types
 F:Evolve From
 ===
-Return your results a dictionary in the format:
+Return your results in the format:
 ```json
 {
     "Deck": {
@@ -56,7 +56,7 @@ OVERIDES:
 ONLYDECK (No Explanations, only return json): N
 ===
 Role:
-You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with the cards based only on the list provided and return the deck in the specified json format, do not use cards outside of the list provided.
+You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with the cards based only on the list provided, do not use cards outside of the list provided.
 '''
 
 RARITIES_ORDER = [
