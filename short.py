@@ -7,7 +7,7 @@ List Format:
 Name
 ace spec(Whether card is an ace spec card)
 HP:Health
-A:Attacks(C:Cost,N:Name,E:Effect,D:Damage,S:Suffix, different attacks are separated by ;)
+A:Attacks(different attacks are separated by ';', Moves are seperated into 'name:effect:cost' format)
 AB:Abilities(If not written, is none)
 R:Retreat Cost(If not written, is 1)
 E:Effects
@@ -147,9 +147,7 @@ def write_cards_txt(cards, out_path="system.txt"):
                 s += f"HP:{c['hp']}|"
 
             if c['types'] and c['types'].lower() != 'none':
-                types_str = c['types'][2:-2]
-                types_clean = types_str.replace('"', '').replace("'", '')
-                s += f"T:{types_clean}|"
+                s += f"T:{c['types']}|"
 
             if c['effect'] and c['effect'].lower() != 'none':
                 s += f"E:{c['effect']}|"
@@ -159,17 +157,7 @@ def write_cards_txt(cards, out_path="system.txt"):
                 s += f"AB:{ab}|"
 
             if c['attacks'] and c['attacks'].lower() != 'none':
-                attacks = c['attacks'][2:-2]
-                attacks = (attacks.replace('}, {', ';')
-                                   .replace(", 'effect': none", '')
-                                   .replace("'amount': ", '')
-                                   .replace(", 'damage': none", '')
-                                   .replace(': ', ':')
-                                   .replace(', ', ',')
-                                   .replace("'", '')
-                                   .replace('{', '').replace('}', '')
-                                   .replace(",suffix:", ''))
-                
+                attacks = c['attacks']
                 s += f"A:{attacks}|"
 
             if c['retreat'] is not None and str(c['retreat']).lower() not in ('none', '1'):

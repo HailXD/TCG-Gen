@@ -55,7 +55,7 @@ def process_card(card, assoc):
 
     hp = str(card.get('hp', '')).lower()
 
-    card_type = card.get('supertype', '').lower()
+    card_type = card.get('supertype', '').lower().replace('é', 'e')
 
     effect = ''
     if card_type == 'trainer':
