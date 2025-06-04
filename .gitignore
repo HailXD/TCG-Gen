@@ -1,0 +1,6 @@
+*.db
+system.txt
+.env
+cards.txt
+temp*
+pokemon-tcg-data
