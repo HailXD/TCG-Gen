@@ -36,6 +36,7 @@ Type can be Pokemon, Trainer or Energy
 Basic Energies can have unlimited of each, any other card including special energies are limited to 4 each, ace spec and radiant pokemon limited to 1 per deck
 For Special Energies, classify them as "Energy"
 For energy, don't need write "Basic"
+Decks should minimally contain sufficient basic energies, special energies are not compulsory unless are beneficial for deck strategies
 Card Names Can be in 3 formats:
 Card_Name (e.g drayton) - Used for trainers or energies since they have the same effect regardless of set
 Card_Name Set_Name (e.g arcanine SP) - For pokemon that only has 1 type (Same attacks with different prints) in the same set
