@@ -47,17 +47,7 @@ Role:
 You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with explanations with the cards based only on the card list provided, do not use cards outside of the list provided.
 '''
 
-RARITIES_ORDER = [
-    'common', 'uncommon', 'rare', 'rare holo', 'promo', 'ultra rare', 'no rarity',
-    'rainbow rare', 'rare holo ex', 'rare secret', 'shiny rare', 'holo rare v',
-    'illustration rare', 'double rare', 'rare holo gx', 'special illustration rare',
-    'holo rare vmax', 'trainer gallery holo rare', 'hyper rare', 'rare holo lv.x',
-    'trainer gallery holo rare v', 'ace spec rare', 'rare shiny gx', 'holo rare vstar',
-    'trainer gallery ultra rare', 'rare break', 'rare prism star', 'rare prime',
-    'rare holo star', 'legend', 'rare shining', 'shiny rare v or vmax', 'radiant rare',
-    'shiny ultra rare', 'trainer gallery secret rare', 'trainer gallery holo rare v or vmax',
-    'amazing rare'
-]
+RARITIES_ORDER = ["common", "uncommon", "rare", "rare holo", "promo", "rare ultra", "rare secret", "rare rainbow", "rare holo ex", "rare holo v", "illustration rare", "ultra rare", "double rare", "rare holo gx", "special illustration rare", "rare shiny", "shiny rare", "rare holo vmax", "", "trainer gallery rare holo", "hyper rare", "rare holo lv.x", "rare holo vstar", "rare shiny gx", "ace spec rare", "rare prism star", "rare break", "rare prime", "rare holo star", "classic collection", "legend", "rare shining", "radiant rare", "rare ace", "shiny ultra rare", "amazing rare"]
 
 def fetch_cards(db_path="pokemon_cards.db"):
     conn = sqlite3.connect(db_path)
