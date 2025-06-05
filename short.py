@@ -20,7 +20,6 @@ As an example, if you wanted 3 Arcanine SP, 1 Wiglett PAR 51, 3 drayton, 8 Darkn
 ```json
 {
     "Deck": [Name:arcanine SP,Count:3,Type:Pokemon],[Name:wiglett PAR 51,Count:1,Type:Pokemon],[Name:drayton,Count:3,Type:Trainer],[Name:Darkness Energy,Count:8,Type:Energy],[Name:Lightning Energy,Count:11,Type:Energy],
-    "Comment": The deck... (Explanations)
 }
 ```
 Pokemon must have set names, while card numbers are only needed when there are multiple versions of the same card in the same set
@@ -42,17 +41,6 @@ Card_Name (e.g drayton) - Used for trainers or energies since they have the same
 Card_Name Set_Name (e.g arcanine SP) - For pokemon that only has 1 type (Same attacks with different prints) in the same set
 Card_Name Set_Name Card_Number (e.g wiglett PAR 51) - For pokemon that has the same name but different types in the same set
 The names in the list provided are already in the correct format, do not change them
-
-Comment Notes:
-Explain the core strategy and card synergies
-The entire explanation should be in the comment field, nothing should be outside of the json block
-The comments should be in the format:
-Short tl;dr of the deck's strategy
-Strategy (Overall strategy of the deck)
-{Describe the rough outline of the strategy}
-Card Synergies (How different cards work together)
-No markdown syntax, just plain text
-- 
 
 ===
 Role:

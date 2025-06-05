@@ -29,7 +29,7 @@ class Card(BaseModel):
 
 class Recipe(BaseModel):
     Deck: List[Card]
-    Comment: str
+    # Comment: str
 
 
 def lookup_card(name: str, cur: sqlite3.Cursor, *, set_name: str | None = None):
@@ -164,7 +164,8 @@ def build_deck(characteristics: str) -> tuple[str, str]:
     groups = compile_deck(deck_dict)
     balance_trainers_to_sixty(groups)
 
-    return format_deck(groups, recipe.Comment)
+    # return format_deck(groups, recipe.Comment)
+    return format_deck(groups, '')
 
 
 with gr.Blocks(title="Pokémon Deck Builder") as demo:
