@@ -147,15 +147,15 @@ def store_history(charac, deck, comments, hist):
     hist = hist or []
     hist.append((charac, deck, comments))
     choices = [f"Run {i+1}" for i in range(len(hist))]
-    return hist, gr.Dropdown.update(choices=choices, value=choices[-1])
+    return hist, gr.update(choices=choices, value=choices[-1])
 
 
 def load_history(selection, hist):
     if not selection or not hist:
-        return gr.Textbox.update(), gr.Textbox.update(), gr.Textbox.update()
+        return gr.update(), gr.update(), gr.update()
     idx = int(selection.split()[-1]) - 1
     charac, deck, comm = hist[idx]
-    return gr.Textbox.update(value=charac), gr.Textbox.update(value=deck), gr.Textbox.update(value=comm)
+    return gr.update(value=charac), gr.update(value=deck), gr.update(value=comm)
 
 
 with gr.Blocks(title="Pokémon Deck Builder") as demo:
