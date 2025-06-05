@@ -7,7 +7,7 @@ List Format:
 Name
 ace spec(Whether card is an ace spec card)
 HP:Health
-A:Attacks(different attacks are separated by ';', each move is grouped into () and in the format (Name|E|C|D), where E is effect, C is cost and D is damage where applicable)
+A:Attacks(different attacks are separated by ';', each move is grouped into {} and in the format {Name|E|C|D}, where E is effect, C is cost and D is damage where applicable)
 AB:Abilities(If not written, is none)
 R:Retreat Cost(If not written, is 1)
 E:Effects

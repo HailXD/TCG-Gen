@@ -78,14 +78,14 @@ def process_card(card, assoc):
         text_part = atk.get('text', '').lower()
         cost_part = ','.join([c.lower() for c in atk.get('cost', [])])
         damage_part = str(atk.get('damage', '')).lower()
-        s = '(' + name_part
+        s = '{' + name_part
         if text_part:
             s += '|E:' + text_part
         if cost_part:
             s += '|C:' + cost_part
         if damage_part:
             s += '|D:' + damage_part
-        s += ')'
+        s += '}'
         attack_parts.append(s)
     attacks = ';'.join(attack_parts)
 
