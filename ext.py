@@ -77,7 +77,8 @@ def process_card(card, assoc):
         name_part = atk.get('name', '').lower()
         text_part = atk.get('text', '').lower()
         cost_part = ','.join([c.lower() for c in atk.get('cost', [])])
-        attack_parts.append(f"{name_part}:{text_part}:{cost_part}")
+        damage_part = str(atk.get('damage', '')).lower()
+        attack_parts.append(f"{name_part}:{text_part}:{damage_part}:{cost_part}")
     attacks = ';'.join(attack_parts)
 
     retreat = len(card.get('retreatCost', []))
