@@ -133,7 +133,7 @@ def write_cards_txt(cards, out_path="system.txt"):
                 found = True
 
             if c['card_type'] == 'pokemon':
-                base_name = f"{c['name']} {c['set_name'].upper().replace('PROMO_SWSH', 'SP')}"
+                base_name = f"{c['name']} {c['set_name'].upper().replace('PROMO_SWSH', 'SP').replace('PR-SW', 'SP')}"
                 if name_set_counts[(c['name'], c['set_name'])] > 1:
                     base_name += f" {n}"
                 s = f"{base_name}|"

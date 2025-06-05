@@ -90,7 +90,7 @@ def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
         else:
             continue
 
-        groups[category].append((count, raw_name, set_name, number))
+        groups[category].append((count, raw_name, set_name, str(number).replace('swsh', '')))
 
     conn.close()
     return groups
