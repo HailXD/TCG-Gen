@@ -53,7 +53,6 @@ def lookup_card(name: str, cur: sqlite3.Cursor, *, set_name: str | None = None):
           AND (rarity IS NULL
                OR rarity IN ('common','uncommon','ace spec rare',
                              'rare','rare holo','double rare'))
-        ORDER BY date ASC
         """,
         (name.lower(),),
     )
