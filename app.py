@@ -14,7 +14,7 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 
 TEMPERATURE = 1.0
-GEN_MODEL = "gemini-2.5-pro-preview-05-06"
+GEN_MODEL = "gemini-2.5-pro-preview-06-05"
 client = genai.Client(api_key=api_key)
 
 with open("system.txt", encoding="utf-8") as f:
