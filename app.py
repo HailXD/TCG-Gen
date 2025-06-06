@@ -60,7 +60,7 @@ def lookup_card(name: str, cur: sqlite3.Cursor, *, set_name: str | None = None):
         (name.lower(),),
     )
     rows = cur.fetchall()
-    return rows[-1] if rows else (None, None)
+    return rows[0] if rows else (None, None)
 
 
 def compile_deck(deck_dict: dict, db_path: str = "pokemon_cards.db") -> dict:
