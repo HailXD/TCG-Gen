@@ -34,8 +34,7 @@ def create_table(conn):
             card_type TEXT,
             vstar_power TEXT,
             regulation TEXT,
-            date TEXT,
-            img TEXT
+            series TEXT
         )
         '''
     )
@@ -94,12 +93,10 @@ def process_card(card, assoc):
     evolve_from = card.get('evolvesFrom', '').lower()
     rarity = card.get('rarity', '').lower()
     regulation = card.get('regulationMark', '').lower()
-    date = card.get('releaseDate', '').lower()
-    img = card.get('images', {}).get('large', '').lower()
 
     return (name, set_name, types, number.lower(), hp, effect,
             abilities, attacks, retreat, evolve_from, rarity,
-            card_type, vstar_power, regulation, date, img)
+            card_type, vstar_power, regulation, set_id)
 
 def main():
     if not os.path.exists(SETS_PATH) or not os.path.isdir(CARDS_DIR):
@@ -129,7 +126,7 @@ def main():
             row = process_card(card, assoc)
             cursor.execute(
                 '''
-                INSERT INTO cards VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                INSERT INTO cards VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 ''',
                 row
             )

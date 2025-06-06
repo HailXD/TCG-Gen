@@ -56,7 +56,7 @@ def fetch_cards(db_path="pokemon_cards.db"):
     cur.execute("""
         SELECT name, set_name, types, number, hp, effect, abilities, attacks, retreat, evolve_from, rarity, card_type, regulation
         FROM cards
-        WHERE regulation IN ('d', 'e', 'f', 'g', 'h', 'i', 'j')
+        WHERE series LIKE 'sv%' OR series LIKE 'swsh%' OR series LIKE 'sm%'
         ORDER BY set_name, CAST(number AS INTEGER)
     """)
     rows = cur.fetchall()
