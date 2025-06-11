@@ -194,10 +194,10 @@ with gr.Blocks(title="Pokémon Deck Builder") as demo:
                 placeholder="E.g. Fast lightning deck around Pikachu and Raichu…",
             )
             btn = gr.Button("Generate Deck", variant="primary")
+            out_comments = gr.Textbox(label="Comments", lines=8, interactive=False)
 
         with gr.Column(scale=5):
-            out_deck = gr.Textbox(label="Deck", lines=30, interactive=False)
-            out_comments = gr.Textbox(label="Comments", lines=8, interactive=False)
+            out_deck = gr.Textbox(label="Deck", lines=40, interactive=False)
 
     if SHOW_COMMENT:
         out_comments.visible = True
