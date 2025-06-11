@@ -52,7 +52,7 @@ Card Synergies
 {How the cards work together to achieve the strategy}
 ===
 Role:
-You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with explanations with the cards based only on the card list provided, do not use cards outside of the list provided.
+You are a Pokemon TCG Deck Build Expert, users will give characteristics of a deck and you will build a deck with the cards based only on the card list provided, do not use cards outside of the list provided. Do not create decks blindly, all decks created must have synergy and a strategy .
 '''
 
 RARITIES_ORDER = ["common", "uncommon", "rare", "rare holo", "promo", "rare ultra", "rare secret", "rare rainbow", "rare holo ex", "rare holo v", "illustration rare", "ultra rare", "double rare", "rare holo gx", "special illustration rare", "rare shiny", "shiny rare", "rare holo vmax", "", "trainer gallery rare holo", "hyper rare", "rare holo lv.x", "rare holo vstar", "rare shiny gx", "ace spec rare", "rare prism star", "rare break", "rare prime", "rare holo star", "classic collection", "legend", "rare shining", "radiant rare", "rare ace", "shiny ultra rare", "amazing rare"]
