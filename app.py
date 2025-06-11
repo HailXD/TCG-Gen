@@ -20,6 +20,7 @@ client = genai.Client(api_key=api_key)
 with open("system.txt", encoding="utf-8") as f:
     system_instr = f.read()
 
+SHOW_COMMENT = True
 
 class Card(BaseModel):
     count: int = Field(..., ge=1, le=20)
@@ -27,10 +28,13 @@ class Card(BaseModel):
     category: str
 
 
-class Recipe(BaseModel):
-    Deck: List[Card]
-    # Comment: str
-
+if SHOW_COMMENT:
+    class Recipe(BaseModel):
+        Deck: List[Card]
+        Comment: str
+else:
+    class Recipe(BaseModel):
+        Deck: List[Card]
 
 def lookup_card(name: str, cur: sqlite3.Cursor, *, set_name: str | None = None):
     if set_name is not None:
@@ -166,8 +170,10 @@ def build_deck(characteristics: str) -> tuple[str, str]:
     groups = compile_deck(deck_dict)
     balance_trainers_to_sixty(groups)
 
-    # return format_deck(groups, recipe.Comment)
-    return format_deck(groups, '')
+    if SHOW_COMMENT:
+        return format_deck(groups, recipe.Comment)
+    else:
+        return format_deck(groups, '')
 
 
 with gr.Blocks(title="Pokémon Deck Builder") as demo:
@@ -191,7 +197,13 @@ with gr.Blocks(title="Pokémon Deck Builder") as demo:
 
         with gr.Column(scale=5):
             out_deck = gr.Textbox(label="Deck", lines=30, interactive=False)
-            out_comments = gr.Textbox(label="Comments", lines=8, interactive=False, visible=False)
+            out_comments = gr.Textbox(label="Comments", lines=8, interactive=False)
+
+    if SHOW_COMMENT:
+        out_comments.visible = True
+    else:
+        out_comments.visible = False
+            
 
     btn.click(fn=build_deck, inputs=inp, outputs=[out_deck, out_comments])
 
