@@ -92,8 +92,17 @@ def write_cards_txt(cards, out_path="system.txt"):
             if key not in grouped:
                 grouped[key] = c
             else:
-                if rarity_index(c['rarity']) < rarity_index(grouped[key]['rarity']):
-                    grouped[key] = c
+                existing_card = grouped[key]
+                new_card = c
+                
+                existing_reg = existing_card['regulation'] or ''
+                new_reg = new_card['regulation'] or ''
+
+                if new_reg > existing_reg:
+                    grouped[key] = new_card
+                elif new_reg == existing_reg:
+                    if rarity_index(new_card['rarity']) < rarity_index(existing_card['rarity']):
+                        grouped[key] = new_card
 
     selected = list(grouped.values())
     selected.sort(key=lambda c: (c['card_type'] != 'pokemon', c['set_name'], c['number']))
@@ -106,6 +115,7 @@ def write_cards_txt(cards, out_path="system.txt"):
             key = (c['name'], c['set_name'])
             name_set_counts[key] = name_set_counts.get(key, 0) + 1
 
+    seen = set()
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write('Card List:\n')
         for c in selected:
@@ -162,7 +172,12 @@ def write_cards_txt(cards, out_path="system.txt"):
             s = re.sub(r'\s{2,}', '.', s)
             s = s.replace(' .', '.')
             s = s.replace(' ,', ',')
-            f.write(s[:-1].replace('\n', '') + '\n')
+            parts = [part.strip() for part in s.split('|')]
+            s = "|".join(parts)
+            if s.split('|')[0] in seen:
+                continue
+            seen.add(s.split('|')[0])
+            f.write(s.removesuffix('|').replace('\n', '') + '\n')
         f.write(SUFFIX)
 
 if __name__ == "__main__":

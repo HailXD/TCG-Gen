@@ -43,6 +43,9 @@ def lookup_card(name: str, cur: sqlite3.Cursor, *, set_name: str | None = None):
             SELECT set_name, number
             FROM cards
             WHERE name = ? AND set_name = ?
+            ORDER BY
+                regulation IS NULL,
+                regulation DESC
             """,
             (name.lower(), set_name.lower()),
         )
