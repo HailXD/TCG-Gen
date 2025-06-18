@@ -155,12 +155,15 @@ def format_deck(groups: dict, comment: str) -> tuple[str, str]:
 def build_deck(characteristics: str) -> tuple[str, str]:
     response = client.models.generate_content(
         model=GEN_MODEL,
-        contents=[characteristics],
+        contents=characteristics,
         config=types.GenerateContentConfig(
             temperature=TEMPERATURE,
             system_instruction=system_instr,
             response_mime_type="application/json",
             response_schema=Recipe,
+            thinking_config=types.ThinkingConfig(
+                thinking_budget=16384,
+            )
         ),
     )
 
