@@ -82,27 +82,29 @@ def write_cards_txt(cards, out_path="system.txt"):
     grouped = {}
     for c in cards:
         card_type = (c['card_type'] or '').lower()
+        name = c['name']
+        if card_type != 'pokemon':
+            name = re.sub(r'\(.*?\)', '', name).strip()
+
         if card_type == 'pokemon':
-            key = (c['name'], c['attacks'] or '')
+            key = (name, c['attacks'] or '')
         else:
-            key = c['effect'] or None
-        if key is None:
+            key = name
+        
+        if key not in grouped:
             grouped[key] = c
         else:
-            if key not in grouped:
-                grouped[key] = c
-            else:
-                existing_card = grouped[key]
-                new_card = c
-                
-                existing_reg = existing_card['regulation'] or ''
-                new_reg = new_card['regulation'] or ''
+            existing_card = grouped[key]
+            new_card = c
+            
+            existing_reg = existing_card['regulation'] or ''
+            new_reg = new_card['regulation'] or ''
 
-                if new_reg > existing_reg:
+            if new_reg > existing_reg:
+                grouped[key] = new_card
+            elif new_reg == existing_reg:
+                if rarity_index(new_card['rarity']) < rarity_index(existing_card['rarity']):
                     grouped[key] = new_card
-                elif new_reg == existing_reg:
-                    if rarity_index(new_card['rarity']) < rarity_index(existing_card['rarity']):
-                        grouped[key] = new_card
 
     selected = list(grouped.values())
     selected.sort(key=lambda c: (c['card_type'] != 'pokemon', c['set_name'], c['number']))
