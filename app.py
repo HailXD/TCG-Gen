@@ -162,7 +162,7 @@ def build_deck(characteristics: str) -> tuple[str, str]:
             response_mime_type="application/json",
             response_schema=Recipe,
             thinking_config=types.ThinkingConfig(
-                thinking_budget=16384,
+                thinking_budget=8192,
             )
         ),
     )
