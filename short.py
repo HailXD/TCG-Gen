@@ -232,16 +232,16 @@ def write_cards_to_file(cards: List[sqlite3.Row], out_path: str = "system.txt"):
 
     random.shuffle(cards)
 
-    seen_names = set()
+    # seen_names = set()
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write('Card List:\n')
         for card in cards:
             formatted_card = format_card_string(card, name_set_counts)
             card_name = formatted_card.split('|')[0]
-            if card_name in seen_names:
-                continue
+            # if card_name in seen_names:
+            #    continue
             
-            seen_names.add(card_name)
+            # seen_names.add(card_name)
             f.write(formatted_card.replace('\n', '') + '\n')
         f.write(SUFFIX)
 
