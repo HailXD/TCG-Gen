@@ -1,7 +1,7 @@
 import sqlite3
 import re
 import random
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Tuple
 
 # Constants
 # SUFFIX for the output file
@@ -94,6 +94,7 @@ def fetch_cards_from_db(db_path: str = "pokemon_cards.db") -> List[sqlite3.Row]:
             SELECT name, set_name, types, number, hp, effect, abilities, attacks, retreat, evolve_from, rarity, card_type, regulation
             FROM cards
             WHERE series LIKE 'sv%' OR series LIKE 'swsh%' OR series LIKE 'sm%'
+                       AND regulation in ('g', 'h', 'i', 'j', 'k', 'l')
             ORDER BY set_name, CAST(number AS INTEGER)
         """)
         return cursor.fetchall()
@@ -233,16 +234,10 @@ def write_cards_to_file(cards: List[sqlite3.Row], out_path: str = "system.txt"):
 
     random.shuffle(cards)
 
-    # seen_names = set()
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write('Card List:\n')
         for card in cards:
             formatted_card = format_card_string(card, name_set_counts)
-            card_name = formatted_card.split('|')[0]
-            # if card_name in seen_names:
-            #    continue
-            
-            # seen_names.add(card_name)
             f.write(formatted_card.replace('\n', '') + '\n')
         f.write(SUFFIX)
 
