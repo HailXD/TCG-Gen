@@ -94,7 +94,7 @@ def fetch_cards_from_db(db_path: str = "pokemon_cards.db") -> List[sqlite3.Row]:
             SELECT name, set_name, types, number, hp, effect, abilities, attacks, retreat, evolve_from, rarity, card_type, regulation
             FROM cards
             WHERE series LIKE 'sv%' OR series LIKE 'swsh%' OR series LIKE 'sm%'
-                       AND regulation in ('g', 'h', 'i', 'j', 'k', 'l')
+                       AND regulation in ('e', 'f', 'g', 'h', 'i', 'j', 'k', 'l')
             ORDER BY set_name, CAST(number AS INTEGER)
         """)
         return cursor.fetchall()
