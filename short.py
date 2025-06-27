@@ -30,7 +30,6 @@ Trainer does not need to have set names or card numbers
 Energy does not need to have set names or card numbers
 ===
 Important Checks:
-Very Important: Do not include Pokemon if the energy needed for their attacks are not included in the deck
 Each deck must have exactly 60 cards
 
 Deck Guidelines:
